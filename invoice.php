@@ -415,10 +415,10 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
                 <td colspan="6"></td>
               </tr>
               <tr>
-                <td colspan="6" align="center">
-                  <input type="text" name="total_item" id="total_item" value="1" />
-                 <!-- <input type="submit" name="create_invoice" id="create_invoice" class="btn btn-info" value="Create"  />  -->
-                  <input type="text" onkeypress="$('#invoice_form').submit();" name="create_invoice" id="create_invoice" class="btn btn-info" value="Create" />
+          <td colspan="6" align="center">
+          <input type="text" name="total_item" id="total_item" value="1" />
+           <!-- <input type="submit" name="create_invoice" id="create_invoice" class="btn btn-info" value="Create"  />onkeypress="$('#invoice_form').submit();"  "-->
+          <input type="button"  name="create_invoice" id="create_invoice" class="btn btn-info" value="Create" />
                 </td>
               </tr>
           </table>
@@ -564,8 +564,10 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
  });
 
 //-------------Create Invoice------Authentication-------------------------
-       
-        $('#create_invoice').click(function(){
+//-------------Code for Pressing Enter Key-------------------------------
+        //$('#create_invoice').click(function(){
+          $(document).on('keypress','#create_invoice',function(){
+  //          if (e.keyCode == 13) {
           if($.trim($('#order_receiver_name').val()).length == 0)
           {
             alert("Please Enter Reciever Name Naeem");
@@ -587,8 +589,8 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
             return false;
           }
 
-          for(var no=1; no<=count; no++)
-          {
+          for(var no=1; no<=count; no++) {
+
             if($.trim($('#item_name'+no).val()).length == 0)
             {
               alert("Please Enter Item Name");
@@ -624,14 +626,81 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
             }
 
           }
-
-          $('#invoice_form').submit();
-
+            
+            $('#invoice_form').submit();
+          //$('#invoice_form').submit();
 
         });
 
       });
+//--------------Repeating above code for Click Button-------------------------
+
+$(document).on('click','#create_invoice',function(){
+          if($.trim($('#order_receiver_name').val()).length == 0)
+          {
+            alert("Please Enter Reciever Name Naeem");
+            $('#order_receiver_name').focus();
+            return false;
+          }
+
+          if($.trim($('#order_no').val()).length == 0)
+          {
+            alert("Please Enter Invoice Number");
+            $('#order_no').focus();
+            return false;
+          }
+
+          if($.trim($('#order_date').val()).length == 0)
+          {
+            alert("Please Select Invoice Date");
+            $('#order_date').focus();
+            return false;
+          }
+
+          for(var no=1; no<=count; no++) {
+
+            if($.trim($('#item_name'+no).val()).length == 0)
+            {
+              alert("Please Enter Item Name");
+              $('#item_name'+no).focus();
+              return false;
+            }
+
+            if($.trim($('#order_item_whname'+no).val()).length == 0)
+            {
+              alert("Please Enter Warehouse Name");
+              $('#order_item_whname'+no).focus();
+              return false;
+            }
+
+            if($.trim($('#order_item_quantity'+no).val()).length == 0)
+            {
+              alert("Please Enter Quantity");
+              $('#order_item_quantity'+no).focus();
+              return false;
+            }
+            if($.trim($('#order_item_squantity'+no).val()).length == 0)
+            {
+              alert("Please Enter Stock Quantity");
+              $('#order_item_squantity'+no).focus();
+              return false;
+            }
+
+            if($.trim($('#order_item_grate'+no).val()).length == 0)
+            {
+              alert("Please Enter Gross Rate");
+              $('#order_item_grate'+no).focus();
+              return false;
+            }
+
+          }
+            
+            $('#invoice_form').submit();
+        });
+
       </script>
+
+
       <?php
       }
  //----------------------Update code----------------------------
