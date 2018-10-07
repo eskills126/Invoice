@@ -564,7 +564,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
  });
 
 //-------------Create Invoice------Authentication-------------------------
-//-------------Code for Pressing Enter Key-------------------------------
+//-------------Code for Pressing Enter Key to Submit a Form---------------
         //$('#create_invoice').click(function(){
           $(document).on('keypress','#create_invoice',function(){
   //          if (e.keyCode == 13) {
@@ -633,7 +633,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
         });
 
       });
-//--------------Repeating above code for Click Button-------------------------
+//--------------Repeating above code for Click Button to Submit Form --------------------
 
 $(document).on('click','#create_invoice',function(){
           if($.trim($('#order_receiver_name').val()).length == 0)
@@ -697,6 +697,7 @@ $(document).on('click','#create_invoice',function(){
             
             $('#invoice_form').submit();
         });
+//-------------------------------------------------------------------
 
       </script>
 
@@ -1132,6 +1133,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
 <!-------------------------First Page Closed-------------------------->
 <script type="text/javascript">
   $(document).ready(function(){
+    //$("#new_create").focus();
     var table = $('#data-table').DataTable({
           "order":[],
           "columnDefs":[
@@ -1213,7 +1215,7 @@ inputs = $("form :input");
   //$(inputs).on("keypress", ":input:not([type=submit])",(function(e){
 //  $(document).on("keypress", ":input:not(textarea):not([type=submit])",(function(e){
     //e.preventDefault();
-    if (e.keyCode == 13){
+ if(e.keyCode == 13){
  //   e.preventDefault();
   
       inputs[inputs.index(this)+1].focus();
@@ -1242,4 +1244,16 @@ $(inputs).keypress(function(e){
 </script>
 <script type="text/javascript">
 
+</script>
+<script>
+  $(document).ready(function(){
+    inputed = $(":input");
+    $(inputed).keypress(function(e){
+
+ if(e.keycode === 32) {
+        alert("F2 was pressed!!");
+        $("#order_total_discount_percentage").focus();
+     }
+     })
+    });
 </script>
