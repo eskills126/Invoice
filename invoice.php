@@ -416,9 +416,10 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
               </tr>
               <tr>
           <td colspan="6" align="center">
-          <input type="text" name="total_item" id="total_item" value="1" />
            <!-- <input type="submit" name="create_invoice" id="create_invoice" class="btn btn-info" value="Create"  />onkeypress="$('#invoice_form').submit();"  "-->
-          <input  type="text"  name="create_invoice" id="create_invoice" class="btn btn-info" value="Create " readonly />
+          <input  type="text"  name="create_invoice" id="create_invoice" class="btn btn-success" value="Save " readonly />
+          <input type="hidden" name="total_item" id="total_item" value="1" />
+          
                 </td>
               </tr>
           </table>
@@ -807,14 +808,14 @@ $(document).on('click','#create_invoice',function(){
   <!----------Gross Rate------------------->
   <td><input type="text" name="order_item_grate[]" id="order_item_grate<?php echo $m; ?>" data-srno="<?php echo $m; ?>" class="form-control input-sm number_only order_item_grate" value="<?php echo $sub_row["order_item_grate"]; ?>" /></td>
   <!----------Gross Amount------------------->
-  <td><input type="text" name="order_item_gamount[]" id="order_item_gamount<?php echo $m; ?>" data-srno="<?php echo $m; ?>" class="form-control input-sm order_item_gamount" value="<?php echo $sub_row["order_item_gamount"];?>" /></td>
+  <td><input type="text" name="order_item_gamount[]" id="order_item_gamount<?php echo $m; ?>" data-srno="<?php echo $m; ?>" class="form-control input-sm order_item_gamount" value="<?php echo $sub_row["order_item_gamount"];?>" readonly/></td>
 
                       <!--------------------Naeem Ahmed------------------->
   <td>
-  <a href="#" id="" class="deleted" data-srno="<?php echo $m; ?>" data-id="<?php echo $sub_row["order_item_id"]; ?>" > <span class="glyphicon glyphicon-remove">Delete</span>
-<!-- <i style="color:red;font-size: 40px;" class="fa fa-trash-o fa-lg"></i> --></a>
+  <a href="#" id="" class="deleted" data-srno="<?php echo $m; ?>" data-id="<?php echo $sub_row["order_item_id"]; ?>" > <!--<span class="glyphicon glyphicon-remove">Delete</span> -->
+    <i style="color:red;font-size: 40px;" class="fa fa-trash-o fa-lg"></i> </a>
 
-  <input type="text" name="deleting[]" id="deleting" data-id="<?php echo $sub_row["order_item_id"]; ?>" value ="<?php echo $sub_row["order_item_id"]; ?>" />
+  <span type="text" name="deleting[]" id="deleting" data-id="<?php echo $sub_row["order_item_id"]; ?>" value ="<?php echo $sub_row["order_item_id"]; ?>" ></span>
   
   </td>       
      </tr>
@@ -853,13 +854,11 @@ $(document).on('click','#create_invoice',function(){
                 <td colspan="6"></td>
               </tr>
               <tr>
-                <td colspan="6" align="center">
-                  <input type="text" name="total_item" id="total_item" value="<?php echo $m; ?>" />
-                  <input type="text" name="order_id" id="order_id" value="<?php echo $row["order_id"]; ?>" />
-                  <input type="button" name="update_invoice" id="create_invoice" class="btn btn-info" value="Edit" />
-
-
-
+         <td colspan="6" align="center">
+         <input type="text" name="update_invoice" id="create_invoice" class="btn btn-success" value="Update" readonly="" />
+          <input type="hidden" name="total_item" id="total_item" value="<?php echo $m; ?>" />
+         <input type="hidden" name="order_id" id="order_id" value="<?php echo $row["order_id"]; ?>" />
+        
                     </td>
               </tr>
           </table>
@@ -1018,7 +1017,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
 
 
 //----------Authentication code for Edit Invoice--------------------
-        $('#create_invoice').click(function(){
+        $(document).on('keydown','#create_invoice',function(){
           if($.trim($('#order_receiver_name').val()).length == 0)
           {
             alert("Please Enter Reciever Name ");
@@ -1076,7 +1075,67 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
 
         });
 
-      });
+   //   });
+//-----------------Repeating code for Edit invoice on Click Event-------------------
+$(document).on('click','#create_invoice',function(){
+
+          if($.trim($('#order_receiver_name').val()).length == 0)
+          {
+            alert("Please Enter Reciever Name ");
+            $('#order_receiver_name').focus();
+            return false; 
+          }
+
+          if($.trim($('#order_no').val()).length == 0)
+          {
+            alert("Please Enter Invoice Number");
+            $('#order_no').focus();
+            return false;
+          }
+
+          if($.trim($('#order_date').val()).length == 0)
+          {
+            alert("Please Select Invoice Date");
+            $('#order_date').focus();
+            return false;
+          }
+
+          for(var no=1; no<=count; no++)
+          {
+            if($.trim($('#item_name'+no).val()).length == 0)
+            {
+              alert("Please Enter Item Name");
+              $('#item_name'+no).focus();
+              return false;
+            }
+            if($.trim($('#order_item_whname'+no).val()).length == 0)
+            {
+              alert("Please Enter Warehouse Name");
+              $('#order_item_whname1'+no).focus();
+              return false;
+            }
+
+            if($.trim($('#order_item_quantity'+no).val()).length == 0)
+            {
+              alert("Please Enter Quantity");
+              $('#order_item_quantity1'+no).focus();
+              return false;
+            }
+
+            if($.trim($('#order_item_grate'+no).val()).length == 0)
+            {
+              alert("Please Enter Gross Rate");
+              $('#order_item_grate1'+no).focus();
+              return false;
+            }
+            
+
+          }
+
+          $('#invoice_form').submit();
+
+        });
+   });
       </script>
         <?php 
         }
@@ -1115,9 +1174,9 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
                 <td>'.$row["order_date"].'</td>
                 <td>'.$row["order_receiver_name"].'</td>
                 <td>'.$row["order_total_after_discount_freight"].'</td>
-                <td><a href="print_invoice.php?pdf=1&id='.$row["order_id"].'">PDF</a></td>
-                <td><a href="invoice.php?update=1&id='.$row["order_id"].'"><span class="glyphicon glyphicon-edit">Edit</span></a></td>
-                <td><a href="#" id="'.$row["order_id"].'" class="delete"><span class="glyphicon glyphicon-remove">Delete</span></a></td>
+                <td><a href="print_invoice.php?pdf=1&id='.$row["order_id"].'"><i style="color:blue;font-size: 30px;" class="fa fa-print fa-lg"></i></a></td>
+                <td><a href="invoice.php?update=1&id='.$row["order_id"].'"><i style="color:#00cc00;font-size: 30px;" class="fa fa-edit fa-lg"></i></a></td>
+                <td><a href="#" id="'.$row["order_id"].'" class="delete"><i style="color:Red;font-size: 30px;" class="fa fa-trash-o fa-lg"></i></a></td>
               </tr>
             ';
           }
