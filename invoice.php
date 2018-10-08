@@ -418,7 +418,7 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
           <td colspan="6" align="center">
           <input type="text" name="total_item" id="total_item" value="1" />
            <!-- <input type="submit" name="create_invoice" id="create_invoice" class="btn btn-info" value="Create"  />onkeypress="$('#invoice_form').submit();"  "-->
-          <input type="button"  name="create_invoice" id="create_invoice" class="btn btn-info" value="Create" />
+          <input  type="text"  name="create_invoice" id="create_invoice" class="btn btn-info" value="Create " readonly />
                 </td>
               </tr>
           </table>
@@ -566,7 +566,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
 //-------------Create Invoice------Authentication-------------------------
 //-------------Code for Pressing Enter Key to Submit a Form---------------
         //$('#create_invoice').click(function(){
-          $(document).on('keypress','#create_invoice',function(){
+          $(document).on('keydown','#create_invoice',function(){
   //          if (e.keyCode == 13) {
           if($.trim($('#order_receiver_name').val()).length == 0)
           {
@@ -814,8 +814,8 @@ $(document).on('click','#create_invoice',function(){
   <a href="#" id="" class="deleted" data-srno="<?php echo $m; ?>" data-id="<?php echo $sub_row["order_item_id"]; ?>" > <span class="glyphicon glyphicon-remove">Delete</span>
 <!-- <i style="color:red;font-size: 40px;" class="fa fa-trash-o fa-lg"></i> --></a>
 
-
   <input type="text" name="deleting[]" id="deleting" data-id="<?php echo $sub_row["order_item_id"]; ?>" value ="<?php echo $sub_row["order_item_id"]; ?>" />
+  
   </td>       
      </tr>
          <?php
@@ -846,7 +846,8 @@ $(document).on('click','#create_invoice',function(){
 
 
     <td><b>Total</b></td>
-    <td><b><span id="final_total_amt"><?php echo $row["order_total_after_discount_freight"]; ?></span></b></td>
+    <td><b><span id="final_total_amt"><?php echo $row["order_total_after_discount_freight"]; ?></span></b>
+    </td>
   </tr>
   <tr>
                 <td colspan="6"></td>
@@ -856,7 +857,10 @@ $(document).on('click','#create_invoice',function(){
                   <input type="text" name="total_item" id="total_item" value="<?php echo $m; ?>" />
                   <input type="text" name="order_id" id="order_id" value="<?php echo $row["order_id"]; ?>" />
                   <input type="button" name="update_invoice" id="create_invoice" class="btn btn-info" value="Edit" />
-                </td>
+
+
+
+                    </td>
               </tr>
           </table>
         </div>
@@ -1133,7 +1137,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
 <!-------------------------First Page Closed-------------------------->
 <script type="text/javascript">
   $(document).ready(function(){
-    //$("#new_create").focus();
+    $("#new_create").focus();
     var table = $('#data-table').DataTable({
           "order":[],
           "columnDefs":[
@@ -1245,15 +1249,12 @@ $(inputs).keypress(function(e){
 <script type="text/javascript">
 
 </script>
+<!------This code is for to move Cursor to Discount% input Box by Pressing Shift Key------
 <script>
-  $(document).ready(function(){
-    inputed = $(":input");
-    $(inputed).keypress(function(e){
-
- if(e.keycode === 32) {
-        alert("F2 was pressed!!");
-        $("#order_total_discount_percentage").focus();
-     }
-     })
-    });
-</script>
+  $(document).keydown(function (e) {
+    if (e.keyCode == 16) {
+        //alert(e.which + " or Shift was pressed");
+      $("#order_total_discount_percentage").focus();  
+    }
+});
+</script>       --->
