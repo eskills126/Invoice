@@ -568,7 +568,41 @@ $(document).on('keyup', '.order_item_quantity', function(){
         $("#final_total_amt").text(summ);
       } 
  });
+ //--------------------Percentage--------------------------------
 
+ $("#order_total_discount_percentage").keyup(function(){
+      var temp = $("#order_gtotal").val();
+      var percent = $("#order_total_discount_percentage").val();
+      var percent_value = 0;
+      percent_value = parseFloat(temp) *  parseFloat(percent) / 100;
+      $('#order_total_discount_value').val(percent_value);
+
+      if(isNaN($('#order_total_discount_value').val())){
+        $("#order_total_discount_value").val(0);
+      } 
+      
+ });
+//-----------This code is for removing NaN value in $final_total_amt.text() if user clik the percentage or freight textbox without entering any item for sale/purchase-----------------------------------------------
+ $("#order_total_discount_value").keyup(function(){
+if(isNaN($('#final_total_amt').text())){
+        $("#final_total_amt").text(0);
+    }
+});
+ $("#order_total_freight").keyup(function(){
+if(isNaN($('#final_total_amt').text())){
+        $("#final_total_amt").text(0);
+    }
+}); 
+//-----Alert for if user Enter Discount Value greater than Actual------
+$('#order_total_discount_percentage').on('keyup',function(){
+   var grand_total = $("#order_gtotal").val();
+   var discount = $("#order_total_discount_value").val();
+var ab = parseFloat(grand_total);
+var bs = parseFloat(discount);
+if(bs > ab) {
+  alert("Discount Value is Greater Than Actual Amount");
+  }
+});
 //-------------Create Invoice------Authentication-------------------------
 //-------------Code for Pressing Enter Key to Submit a Form---------------
         //$('#create_invoice').click(function(){
@@ -638,7 +672,7 @@ $(document).on('keyup', '.order_item_quantity', function(){
 
         });
 
-      });
+      //});
 //--------------Repeating above code for Click Button to Submit Form --------------------
 
 $(document).on('click','#create_invoice',function(){
@@ -647,6 +681,7 @@ $(document).on('click','#create_invoice',function(){
             alert("Please Enter Reciever Name Naeem");
             $('#order_receiver_name').focus();
             return false;
+            //$('#order_receiver_name').focus();
           }
 
           if($.trim($('#order_no').val()).length == 0)
@@ -703,17 +738,9 @@ $(document).on('click','#create_invoice',function(){
             
             $('#invoice_form').submit();
         });
-//-------------------------------------------------------------------
-
-
- //---------------------------------------------------------
-    
+});
 //});
-
-
-
-
-      </script>
+   </script>
 
 
       <?php
@@ -1031,10 +1058,31 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
       } 
  });
 //--------------------------------------------------------------------------
+//--------------------Percentage--------------------------------
 
+ $("#order_total_discount_percentage").keyup(function(){
+      var temp = $("#order_gtotal").val();
+      var percent = $("#order_total_discount_percentage").val();
+      var percent_value = 0;
+      percent_value = parseFloat(temp) *  parseFloat(percent) / 100;
+      $('#order_total_discount_value').val(percent_value);
 
-
-//----------Authentication code for Edit Invoice--------------------
+      if(isNaN($('#order_total_discount_value').val())){
+        $("#order_total_discount_value").val(0);
+      } 
+      
+ });
+//-----Alert for if user Enter Discount Value greater than Actual------
+$('#order_total_discount_percentage').on('keyup',function(){
+   var grand_total = $("#order_gtotal").val();
+   var discount = $("#order_total_discount_value").val();
+var ab = parseFloat(grand_total);
+var bs = parseFloat(discount);
+if(bs > ab) {
+  alert("Discount Value is Greater Than Actual Amount");
+  }
+});
+//----------Authentication code for Edit Invoice-----------
         $(document).on('keydown','#create_invoice',function(){
           if($.trim($('#order_receiver_name').val()).length == 0)
           {
@@ -1327,10 +1375,10 @@ $(inputs).keypress(function(e){
 <script type="text/javascript">
 
 </script>
-<!------This code is for to move Cursor to Discount% input Box by Pressing Shift Key------
+<!------This code is for to move Cursor to Discount% input Box by Pressing Shift Key------>
 <script>
   $(document).keydown(function (e) {
-    if (e.keyCode == 113) {
+    if (e.keyCode == 35 || e.keyCode == 36) {
         //alert(e.which + " or Shift was pressed");
       $("#order_total_discount_percentage").focus();  
     }
