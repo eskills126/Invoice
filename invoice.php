@@ -331,7 +331,7 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
         <!-------------------------------------------------->
         <div class="col-md-4">
            Invoice No.<br />
-          <input type="text" name="order_no" id="order_no" class="form-control input-sm" placeholder="Enter Invoice No." value="<?php echo $row['order_no'] + 1;  ?>" />
+          <input type="text" name="order_no" id="order_no" class="form-control input-sm" placeholder="Enter Invoice No." value="<?php echo $row['order_no'] + 1;  ?>" readonly/>
            <input type="text" data-inputmask="'alias': 'date'" name="order_date" id="order_date" value="<?php echo date('d/m/Y'); ?>" class="form-control input-sm" />
         </div>
         <?php 
@@ -341,7 +341,7 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
             ?>
             <div class="col-md-4">
            Invoice No.<br />
-          <input type="text" name="order_no" id="order_no" class="form-control input-sm" placeholder="Enter Invoice No." value="1";  ?>" />
+          <input type="text" name="order_no" id="order_no" class="form-control input-sm" placeholder="Enter Invoice No." value="1"; readonly="" >" />
            <input type="text" data-inputmask="'alias': 'date'" name="order_date" id="order_date" value="<?php echo date('d/m/Y'); ?>" class="form-control input-sm" />
         </div>  
             <?php 
@@ -365,7 +365,7 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
              <tr>
     <td><span id="sr_no">1</span></td>
     <!----------Item Name------------->
-    <td><input type="text" name="item_name[]" id="item_name1" class="form-control input-sm" /></td>
+    <td><input type="text" name="item_name[]" id="item_name1" class="form-control input-sm"  autocomplete="on" /></td>
     <!----------Warehouse Name------------->
   <td><input type="text" name="order_item_whname[]" id="order_item_whname1" data-srno="1" class="form-control input-sm order_item_whname" /></td>
   <!----------Quantity------------->
@@ -432,6 +432,7 @@ $order_total_after_discount_freight = $order_total_before_discount_freight - $or
         var count = 1;
         
         $(document).on('click', '#add_row', function(){
+          //alert(count);
           count++;
           $('#total_item').val(count);
           var html_code = '';
@@ -526,8 +527,12 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
           var final_gamount = parseFloat(final_item_total) - parseFloat(dvalue) + parseFloat(freight);
           $('#final_total_amt').text(final_gamount);
          }
-
+/*
         $(document).on('blur', '.order_item_grate', function(){
+          cal_final_total(count);
+        });
+*/
+$(document).on('keyup', '.order_item_quantity', function(){
           cal_final_total(count);
         });
 //--------------------------Temporary Total Function-------------------------------------------
@@ -700,6 +705,14 @@ $(document).on('click','#create_invoice',function(){
         });
 //-------------------------------------------------------------------
 
+
+ //---------------------------------------------------------
+    
+//});
+
+
+
+
       </script>
 
 
@@ -757,7 +770,7 @@ $(document).on('click','#create_invoice',function(){
                     </div>
                     <div class="col-md-4">
                       Invoice No.<br />
-                      <input type="text" name="order_no" id="order_no" class="form-control input-sm" placeholder="Enter Invoice No." />
+                      <input type="text" name="order_no" id="order_no" class="form-control input-sm" placeholder="Enter Invoice No." readonly="" />
                       <input type="text" data-inputmask="'alias': 'date'" name="order_date" id="order_date" value="<?php echo date('d/m/Y'); ?>" class="form-control input-sm" />
                     </div>
                   </div>
@@ -872,6 +885,7 @@ $(document).on('click','#create_invoice',function(){
         var count = "<?php echo $m; ?>";
         
         $(document).on('click', '#add_row', function(){
+          //alert(count);
           count++;
           $('#total_item').val(count);
           var html_code = '';
@@ -975,8 +989,12 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
           var final_gamount = parseFloat(final_item_total) - parseFloat(dvalue) + parseFloat(freight);
           $('#final_total_amt').text(final_gamount);
         }
-
+/*
         $(document).on('blur', '.order_item_grate', function(){
+          cal_final_total(count);
+        });
+*/
+        $(document).on('keyup', '.order_item_quantity', function(){
           cal_final_total(count);
         });
 //--------------------------Temporary Total Function-------------------------------------------
@@ -1012,7 +1030,7 @@ html_code += '<td><i style="color:red;font-size: 40px;" name="remove_row" id="'+
         $("#final_total_amt").text(summ);
       } 
  });
-
+//--------------------------------------------------------------------------
 
 
 
@@ -1174,12 +1192,21 @@ $(document).on('click','#create_invoice',function(){
                 <td>'.$row["order_date"].'</td>
                 <td>'.$row["order_receiver_name"].'</td>
                 <td>'.$row["order_total_after_discount_freight"].'</td>
-                <td><a href="print_invoice.php?pdf=1&id='.$row["order_id"].'"><i style="color:blue;font-size: 30px;" class="fa fa-print fa-lg"></i></a></td>
-                <td><a href="invoice.php?update=1&id='.$row["order_id"].'"><i style="color:#00cc00;font-size: 30px;" class="fa fa-edit fa-lg"></i></a></td>
-                <td><a href="#" id="'.$row["order_id"].'" class="delete"><i style="color:Red;font-size: 30px;" class="fa fa-trash-o fa-lg"></i></a></td>
+                <td><a href="print_invoice.php?pdf=1&id='.$row["order_id"].'">
+                <i style="color:blue;font-size: 30px;" class="fa fa-print fa-lg"></i>    
+                </a></td>
+                <td><a href="invoice.php?update=1&id='.$row["order_id"].'">
+                <i style="color:#00cc00;font-size: 30px;" class="fa fa-edit fa-lg"></i>    
+                </a></td>
+                <td><a href="#" id="'.$row["order_id"].'" class="delete">
+                <i style="color:Red;font-size: 30px;" class="fa fa-trash-o fa-lg"></i>    
+                </a></td>
               </tr>
             ';
           }
+          //
+          //
+          //
         }
         ?>
       </table>
@@ -1270,18 +1297,10 @@ $(document).on("click",".deleted",function(){
  $(document).ready(function(){
 //e.preventDefault();
 inputs = $("form :input");
- // $(document).on("keypress", ":input:not([type=button]):not([type=submit])",(function(){
-
-
-//alert(inputs);
  $(inputs).keypress(function(e){
-  //$(inputs).on("keypress", ":input:not([type=submit])",(function(e){
-//  $(document).on("keypress", ":input:not(textarea):not([type=submit])",(function(e){
-    //e.preventDefault();
  if(e.keyCode == 13){
  //   e.preventDefault();
-  
-      inputs[inputs.index(this)+1].focus();
+   inputs[inputs.index(this)+1].focus();
     }
 });
 });
@@ -1311,9 +1330,102 @@ $(inputs).keypress(function(e){
 <!------This code is for to move Cursor to Discount% input Box by Pressing Shift Key------
 <script>
   $(document).keydown(function (e) {
-    if (e.keyCode == 16) {
+    if (e.keyCode == 113) {
         //alert(e.which + " or Shift was pressed");
       $("#order_total_discount_percentage").focus();  
     }
 });
 </script>       --->
+
+<!------- This is a click event for autocomplete item_name--------->
+<script >
+//$(document).on('click',"#add_row",function(){
+  $(document).add("#add_row").bind('keypress click',function(){
+  var auto = 1;
+  $(function() {
+  do{  
+     $("#item_name"+auto).autocomplete({
+        source: "autocomplete_itemname.php",
+        minLength: 0,
+        select: function (event, ui){}
+
+    });                
+auto++;
+}while(auto<500);
+});
+
+}); 
+</script>
+<!------- This is a keypress event for autocomplete item_name---------
+<script >
+$(document).on('keypress',function(){
+  var auto = 1;
+  $(function() {
+  do{  
+     $("#item_name"+auto).autocomplete({
+        source: "autocomplete_itemname.php",
+        minLength: 0,
+        select: function (event, ui){}
+    });                
+auto++;
+}while(auto<500);
+});
+}); 
+</script>
+--->
+<!---------------Code for updating Stock Quantity dynamically------------->
+
+<script>
+$(document).on('keyup',function(){
+  $(function() {
+// var dummy = [1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41]; 
+//-------the above code also works fine , but in below code i used the for loop to push 500 numbres in dummy array-----------------
+  var dummy = [];
+  for (var i = 0; i < 500; i++) {
+    dummy.push(i);
+    }
+ //----------------------------------------   
+  $.each(dummy, function(i, v) { // New scope for i and v
+     $('#item_name' + i).keyup(function() {
+                  //alert(i);
+      var itemcode = $(this).val();
+        $.ajax({
+          type: 'POST',
+          url: 'sqty_dynamics.php',
+          data:{item_name:itemcode},
+           success:function(data){
+              $("#order_item_squantity"+ i).val(data);
+            }
+        });
+      });
+    });
+  }); 
+});
+</script>
+<!---------------Code for updating Gross Rate dynamically------------->
+<script>
+$(document).on('keyup',function(){
+  $(function() {
+//----- push numbers in dummy array----------
+  var dummy = [];
+  for (var i = 0; i < 500; i++) {
+    dummy.push(i);
+    }
+ //----------------------------------------   
+  $.each(dummy, function(i, v) { // New scope for i and v
+     $('#item_name' + i).keyup(function() {
+                  //alert(i);
+      var itemcode = $(this).val();
+        $.ajax({
+          type: 'POST',
+          url: 'grate_dynamics.php',
+          data:{item_name:itemcode},
+           success:function(data){
+              $("#order_item_grate"+ i).val(data);
+            }
+        });
+      });
+    });
+  }); 
+});
+</script>
